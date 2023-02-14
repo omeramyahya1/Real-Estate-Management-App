@@ -2,8 +2,10 @@ import {
   StyleSheet,
   Text,
   View,
+  Image,
   KeyboardAvoidingView,
   TextInput,
+  StatusBar,
   TouchableOpacity,
   TouchableWithoutFeedback,
 } from "react-native";
@@ -36,6 +38,13 @@ const welcome = () => {
       .catch((error) => alert(error.message));
   };
 
+  const handleSignUpWithEmail = () => {
+    navigation.navigate("signup");
+  };
+
+  const handleSignIn = () => {
+    navigation.navigate("login");
+  };
   const handleLogin = () => {
     auth
       .signInWithEmailAndPassword(email, password)
@@ -45,40 +54,86 @@ const welcome = () => {
       })
       .catch((error) => alert(error.message));
   };
-
+  StatusBar.setBarStyle("dark-content", true);
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-      <KeyboardAvoidingView style={styles.container}>
-        <Text>Welcome screen</Text>
-        <View style={styles.inputContainer}>
-          <TextInput
-            placeholder="Email"
-            value={email}
-            onChangeText={(text) => setEmail(text)}
-            style={styles.input}
-          />
-          <TextInput
-            placeholder="Password"
-            value={password}
-            onChangeText={(text) => setPassword(text)}
-            style={styles.input}
-            secureTextEntry
-          />
-        </View>
+    <>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+        <KeyboardAvoidingView style={styles.container}>
+          <View style={styles.logo}>
+            <Text
+              style={[
+                {
+                  fontSize: 36,
+                  fontWeight: "600",
+                },
+                styles.setColorDark,
+              ]}
+            >
+              Logo
+            </Text>
+            <Text
+              style={[
+                {
+                  fontSize: 16,
+                  fontWeight: "300",
+                },
+                styles.setColorDark,
+              ]}
+            >
+              Ramotion RE
+            </Text>
+          </View>
 
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity onPress={handleLogin} style={styles.button}>
-            <Text style={styles.buttonText}>Login</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={handleSignUp}
-            style={[styles.button, styles.buttonOutline]}
-          >
-            <Text style={styles.buttonOutlineText}>Register</Text>
-          </TouchableOpacity>
-        </View>
-      </KeyboardAvoidingView>
-    </TouchableWithoutFeedback>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity
+              onPress={() => {}}
+              style={[styles.button, styles.shadowProps]}
+            >
+              <Image
+                source={require("../assets/icons/google.png")}
+                style={{
+                  width: 21,
+                  height: 21,
+                  marginRight: 25,
+                }}
+              />
+              <Text style={styles.buttonText}>Sign up with Google</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={handleSignUpWithEmail}
+              style={[styles.button, styles.buttonOutline, styles.shadowProps]}
+            >
+              <Text style={styles.buttonOutlineText}>Sign up with Email</Text>
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.buttomPart}>
+            <Text
+              style={[
+                {
+                  fontSize: 10,
+                  marginTop: 106,
+                },
+                styles.setColorGrey,
+              ]}
+            >
+              Already have an account?{" "}
+            </Text>
+            <TouchableOpacity onPress={handleSignIn}>
+              <Text
+                style={{
+                  color: "#1766FF",
+                  fontSize: 10,
+                  textDecorationLine: "underline",
+                }}
+              >
+                Sign In
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </KeyboardAvoidingView>
+      </TouchableWithoutFeedback>
+    </>
   );
 };
 
@@ -87,9 +142,31 @@ export default welcome;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "space-between",
     alignItems: "center",
-    backgroundColor: "#ffb",
+    backgroundColor: "#F9F5FF",
+  },
+  logo: {
+    flex: 1,
+    width: "100%",
+    height: 234,
+    justifyContent: "flex-end",
+    alignItems: "center",
+  },
+  setColorDark: {
+    color: "#28262c",
+  },
+  setColorBlue: {
+    color: "#3B3F65",
+  },
+  setColorGrey: {
+    color: "#969696",
+  },
+  setColorWhite: {
+    color: "#F9F5FF",
+  },
+  setColorRed: {
+    color: "#FF4C4C",
   },
   inputContainer: {
     width: "80%",
@@ -102,23 +179,44 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   buttonContainer: {
-    width: "60%",
-    justifyContent: "center",
+    flex: 1,
+    width: "77%",
+    justifyContent: "flex-end",
     alignItems: "center",
     marginTop: 40,
   },
-  button: {
-    backgroundColor: "#969696",
+  buttomPart: {
+    flex: 1,
     width: "100%",
-    padding: 15,
-    borderRadius: 10,
     alignItems: "center",
+    alignContent: "center",
+  },
+
+  shadowProps: {
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.32,
+    shadowRadius: 5.46,
+
+    elevation: 9,
+  },
+  button: {
+    flexDirection: "row",
+    backgroundColor: "#3B3F65",
+    width: "100%",
+    height: 65,
+    padding: 15,
+    borderRadius: 20,
+    alignItems: "center",
+    justifyContent: "center",
   },
   buttonOutline: {
     backgroundColor: "white",
-    marginTop: 5,
-    borderColor: "#969696",
-    borderWidth: 1,
+    marginTop: 14,
+    borderColor: "#3B3F65",
   },
   buttonText: {
     color: "white",
@@ -126,7 +224,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   buttonOutlineText: {
-    color: "#969696",
+    color: "#3B3F65",
     fontWeight: "700",
     fontSize: 16,
   },

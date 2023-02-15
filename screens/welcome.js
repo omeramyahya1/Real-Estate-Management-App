@@ -4,7 +4,6 @@ import {
   View,
   Image,
   KeyboardAvoidingView,
-  TextInput,
   StatusBar,
   TouchableOpacity,
   TouchableWithoutFeedback,

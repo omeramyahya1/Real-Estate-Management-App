@@ -32,7 +32,7 @@ const signup = () => {
       .createUserWithEmailAndPassword(email, password)
       .then((userCredentials) => {
         const user = userCredentials.user;
-        navigation.navigate("dashboard");
+        navigation.replace("dashboard");
         console.log("New user:", user.email);
       })
       .catch((error) => alert(error.message));
@@ -96,21 +96,28 @@ const signup = () => {
               style={styles.input}
             />
           </View>
-          <View style={styles.inputField}>
-            <Text style={styles.setColorGrey}>Password</Text>
-            <TextInput
-              value={password}
-              onChangeText={(text) => setPassword(text)}
-              style={styles.input}
-              secureTextEntry={passwordVisibility}
-            />
-            <Pressable onPress={handlePasswordVisibility}>
-              <MaterialCommunityIcons
-                name={rightIcon}
-                size={22}
-                color="#232323"
+          <View style={[styles.inputField]}>
+            <Text style={styles.setColorGrey}>Passwrod</Text>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+              }}
+            >
+              <TextInput
+                value={password}
+                onChangeText={(text) => setPassword(text)}
+                style={styles.input}
+                secureTextEntry={passwordVisibility}
               />
-            </Pressable>
+              <Pressable onPress={handlePasswordVisibility}>
+                <MaterialCommunityIcons
+                  name={rightIcon}
+                  size={22}
+                  color="#232323"
+                />
+              </Pressable>
+            </View>
           </View>
         </View>
         <View style={styles.buttonContainer}>
@@ -168,6 +175,7 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   input: {
+    width: "100%",
     borderBottomColor: "#969696",
     borderBottomWidth: 1.5,
     marginBottom: 32,

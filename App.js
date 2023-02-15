@@ -14,11 +14,16 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen
+          options={{ gestureEnabled: false }}
+          name="dashboard"
+          component={dashboard}
+        />
+        <Stack.Screen
           options={{ headerShown: false }}
           name="welcome"
           component={welcome}
         />
-        <Stack.Screen name="dashboard" component={dashboard} />
+
         <Stack.Screen name="signup" component={signup} />
         <Stack.Screen name="login" component={login} />
       </Stack.Navigator>

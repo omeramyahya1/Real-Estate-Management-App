@@ -9,6 +9,7 @@ import {
   Keyboard,
   TouchableOpacity,
   TouchableWithoutFeedback,
+  StatusBar,
   SafeAreaView,
 } from "react-native";
 import React from "react";
@@ -29,10 +30,11 @@ const dashboard = () => {
       .catch((error) => alert(error.message));
   };
 
+  StatusBar.setBarStyle("dark-content", true);
   return (
     <>
       <SafeAreaView style={styles.container}>
-        <View style={styles.hero}>
+        <View style={[styles.hero, styles.heroShadowProps]}>
           <View style={styles.mostTop}>
             <Image
               source={require("../assets/icons/menu.png")}
@@ -78,7 +80,9 @@ const dashboard = () => {
               </Text>
             </View>
             <View style={styles.greetings}>
-              <Text>Welcome back, {userName}!</Text>
+              <Text style={[styles.setColorDark, { fontSize: 16 }]}>
+                Welcome back, {userName}!
+              </Text>
             </View>
           </View>
         </View>
@@ -93,15 +97,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    backgroundColor: "#F9F5FF",
+    backgroundColor: "#fff",
   },
   hero: {
     width: "100%",
     height: 156,
-    backgroundColor: "#cbcbcb",
+    backgroundColor: "#F9F5FF",
   },
   mostTop: {
-    backgroundColor: "pink",
     flexDirection: "row",
     width: "100%",
     height: 59,
@@ -112,6 +115,9 @@ const styles = StyleSheet.create({
   location: {
     flexDirection: "row",
     alignItems: "center",
+  },
+  greetings: {
+    marginTop: 14,
   },
   inputContainer: {
     flex: 1,
@@ -156,16 +162,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   link: { textDecorationLine: "underline", fontSize: 10, color: "#1766FF" },
-  shadowProps: {
+  heroShadowProps: {
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 4,
     },
-    shadowOpacity: 0.32,
-    shadowRadius: 5.46,
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
 
-    elevation: 9,
+    elevation: 1,
   },
   setColorDark: {
     color: "#28262c",

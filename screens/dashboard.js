@@ -15,12 +15,18 @@ import {
 import React from "react";
 import { auth } from "../firebase";
 import { useNavigation } from "@react-navigation/core";
+import { useState } from "react";
 
 const dashboard = () => {
   const userName = "Mohamed";
   const location = "Dubai, UAE";
   const navigation = useNavigation();
 
+  const [menu, setMenu] = useState(false);
+  const handleMenue = () => {
+    navigation.toggleDrawer();
+    setMenu(!menu);
+  };
   const handleSignOut = () => {
     auth
       .signOut()
@@ -36,26 +42,30 @@ const dashboard = () => {
       <SafeAreaView style={styles.container}>
         <View style={[styles.hero, styles.heroShadowProps]}>
           <View style={styles.mostTop}>
-            <Image
-              source={require("../assets/icons/menu.png")}
-              style={{
-                width: 29,
-                height: 29,
-                marginTop: 20,
-                marginLeft: 20,
-                tintColor: "#2B2E4D",
-              }}
-            />
-            <Image
-              source={require("../assets/icons/person.jpg")}
-              style={{
-                width: 49,
-                height: 49,
-                borderRadius: "50%",
-                marginTop: 10,
-                marginRight: 17,
-              }}
-            />
+            <Pressable onPress={handleMenue}>
+              <Image
+                source={require("../assets/icons/menu.png")}
+                style={{
+                  width: 29,
+                  height: 29,
+                  marginTop: 20,
+                  marginLeft: 20,
+                  tintColor: "#2B2E4D",
+                }}
+              />
+            </Pressable>
+            <Pressable onPress={handleMenue}>
+              <Image
+                source={require("../assets/icons/person.jpg")}
+                style={{
+                  width: 49,
+                  height: 49,
+                  borderRadius: "50%",
+                  marginTop: 10,
+                  marginRight: 17,
+                }}
+              />
+            </Pressable>
           </View>
           <View style={styles.greetingsLocation}>
             <View style={styles.location}>

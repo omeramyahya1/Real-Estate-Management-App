@@ -17,91 +17,18 @@ import { auth } from "../firebase";
 import { useNavigation } from "@react-navigation/core";
 import { useState } from "react";
 
-const dashboard = () => {
-  const userName = "Mohamed";
-  const location = "Dubai, UAE";
-  const navigation = useNavigation();
-
-  const [menu, setMenu] = useState(false);
-  const handleMenue = () => {
-    navigation.toggleDrawer();
-    setMenu(!menu);
-  };
-  const handleSignOut = () => {
-    auth
-      .signOut()
-      .then(() => {
-        navigation.replace("welcome");
-      })
-      .catch((error) => alert(error.message));
-  };
-
+const feedback = () => {
   StatusBar.setBarStyle("dark-content", true);
   return (
     <>
       <SafeAreaView style={styles.container}>
-        <View style={[styles.hero, styles.heroShadowProps]}>
-          <View style={styles.mostTop}>
-            <Pressable onPress={handleMenue}>
-              <Image
-                source={require("../assets/icons/menu.png")}
-                style={{
-                  width: 29,
-                  height: 29,
-                  marginTop: 20,
-                  marginLeft: 20,
-                  tintColor: "#2B2E4D",
-                }}
-              />
-            </Pressable>
-            <Pressable onPress={handleMenue}>
-              <Image
-                source={require("../assets/icons/person.jpg")}
-                style={{
-                  width: 49,
-                  height: 49,
-                  borderRadius: "50%",
-                  marginTop: 10,
-                  marginRight: 17,
-                }}
-              />
-            </Pressable>
-          </View>
-          <View style={styles.greetingsLocation}>
-            <View style={styles.location}>
-              <Image
-                source={require("../assets/icons/pin.png")}
-                style={{
-                  width: 11,
-                  height: 12,
-                  marginRight: 7,
-                  tintColor: "#28262C",
-                }}
-              />
-              <Text
-                style={[
-                  styles.setColorDark,
-                  {
-                    fontSize: 12,
-                  },
-                ]}
-              >
-                {location}
-              </Text>
-            </View>
-            <View style={styles.greetings}>
-              <Text style={[styles.setColorDark, { fontSize: 16 }]}>
-                Welcome back, {userName}!
-              </Text>
-            </View>
-          </View>
-        </View>
+        <Text>Give us a feedback</Text>
       </SafeAreaView>
     </>
   );
 };
 
-export default dashboard;
+export default feedback;
 
 const styles = StyleSheet.create({
   container: {

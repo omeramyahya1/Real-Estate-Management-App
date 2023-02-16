@@ -5,12 +5,19 @@ import {
   DrawerItemList,
 } from "@react-navigation/drawer";
 import { useNavigation } from "@react-navigation/core";
+import { auth } from "../firebase";
 
 function CustomDrawer(props) {
   const userName = "Mohamed";
   const navigation = useNavigation();
+
   const handleSignOut = () => {
-    //signout
+    auth
+      .signOut()
+      .then(() => {
+        navigation.replace("welcom");
+      })
+      .catch((error) => alert(error.massage));
   };
   return (
     <>

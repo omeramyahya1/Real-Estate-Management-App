@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, Image, Pressable, Button } from "react-native";
+import { View, Text, StyleSheet, Image, Pressable } from "react-native";
 import {
   DrawerContentScrollView,
   DrawerItemList,

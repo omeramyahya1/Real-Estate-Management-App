@@ -4,8 +4,8 @@ import {
   View,
   Image,
   Pressable,
-  KeyboardAvoidingView,
-  TextInput,
+  FlatList,
+  ScrollView,
   Keyboard,
   TouchableOpacity,
   TouchableWithoutFeedback,
@@ -16,6 +16,38 @@ import React from "react";
 import { auth } from "../firebase";
 import { useNavigation } from "@react-navigation/core";
 import { useState } from "react";
+import Card from "./components/card";
+
+const DATA = [
+  {
+    id: 0,
+    location: "Dubai, Business bay",
+    price: "750,000",
+    image: require("../assets/icons/aptm-1.jpg"),
+    status: "Rented",
+  },
+  {
+    id: 1,
+    location: "Dubai, JBR",
+    price: "500,000",
+    image: require("../assets/icons/aptm-2.jpg"),
+    status: "Sold",
+  },
+  {
+    id: 2,
+    location: "Dubai, International City",
+    price: "750,000",
+    image: require("../assets/icons/aptm-3.jpg"),
+    status: "Rented",
+  },
+  {
+    id: 3,
+    location: "Dubai, JVC",
+    price: "850,000",
+    image: require("../assets/icons/aptm-4.jpg"),
+    status: "Rented",
+  },
+];
 
 const dashboard = () => {
   const userName = "Mohamed";
@@ -38,66 +70,84 @@ const dashboard = () => {
 
   StatusBar.setBarStyle("dark-content", true);
   return (
-    <>
-      <SafeAreaView style={styles.container}>
-        <View style={[styles.hero, styles.heroShadowProps]}>
-          <View style={styles.mostTop}>
-            <Pressable onPress={handleMenue}>
-              <Image
-                source={require("../assets/icons/menu.png")}
-                style={{
-                  width: 29,
-                  height: 29,
-                  marginTop: 20,
-                  marginLeft: 20,
-                  tintColor: "#2B2E4D",
-                }}
-              />
-            </Pressable>
-            <Pressable onPress={handleMenue}>
-              <Image
-                source={require("../assets/icons/person.jpg")}
-                style={{
-                  width: 49,
-                  height: 49,
-                  borderRadius: "50%",
-                  marginTop: 10,
-                  marginRight: 17,
-                }}
-              />
-            </Pressable>
+    <SafeAreaView style={styles.container}>
+      <View style={[styles.hero, styles.heroShadowProps]}>
+        <View style={styles.mostTop}>
+          <Pressable onPress={handleMenue}>
+            <Image
+              source={require("../assets/icons/menu.png")}
+              style={{
+                width: 29,
+                height: 29,
+                marginTop: 20,
+                marginLeft: 20,
+                tintColor: "#2B2E4D",
+              }}
+            />
+          </Pressable>
+          <Pressable onPress={handleMenue}>
+            <Image
+              source={require("../assets/icons/person.jpg")}
+              style={{
+                width: 49,
+                height: 49,
+                borderRadius: "50%",
+                marginTop: 10,
+                marginRight: 17,
+              }}
+            />
+          </Pressable>
+        </View>
+        <View style={styles.greetingsLocation}>
+          <View style={styles.location}>
+            <Image
+              source={require("../assets/icons/pin.png")}
+              style={{
+                width: 11,
+                height: 12,
+                marginRight: 7,
+                tintColor: "#28262C",
+              }}
+            />
+            <Text
+              style={[
+                styles.setColorDark,
+                {
+                  fontSize: 12,
+                },
+              ]}
+            >
+              {location}
+            </Text>
           </View>
-          <View style={styles.greetingsLocation}>
-            <View style={styles.location}>
-              <Image
-                source={require("../assets/icons/pin.png")}
-                style={{
-                  width: 11,
-                  height: 12,
-                  marginRight: 7,
-                  tintColor: "#28262C",
-                }}
-              />
-              <Text
-                style={[
-                  styles.setColorDark,
-                  {
-                    fontSize: 12,
-                  },
-                ]}
-              >
-                {location}
-              </Text>
-            </View>
-            <View style={styles.greetings}>
-              <Text style={[styles.setColorDark, { fontSize: 16 }]}>
-                Welcome back, {userName}!
-              </Text>
-            </View>
+          <View style={styles.greetings}>
+            <Text style={[styles.setColorDark, { fontSize: 16 }]}>
+              Welcome back, {userName}!
+            </Text>
           </View>
         </View>
-      </SafeAreaView>
-    </>
+      </View>
+
+      <FlatList
+        style={styles.cardsContainer}
+        contentContainerStyle={{
+          alignItems: "center",
+          overflow: "scroll",
+        }}
+        data={DATA}
+        renderItem={({ item }) => (
+          <TouchableWithoutFeedback style={styles.card}>
+            <Card
+              status={item.status}
+              location={item.location}
+              price={item.price}
+              image={item.image}
+            />
+          </TouchableWithoutFeedback>
+        )}
+        onEndReachedThreshold={0}
+      />
+    </SafeAreaView>
   );
 };
 
@@ -105,9 +155,10 @@ export default dashboard;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
     alignItems: "center",
     backgroundColor: "#fff",
+    height: "100%",
   },
   hero: {
     width: "100%",
@@ -129,6 +180,15 @@ const styles = StyleSheet.create({
   greetings: {
     marginTop: 14,
   },
+  cardsContainer: {
+    paddingTop: 20,
+    height: "100%",
+    width: "100%",
+    flexGrow: 0,
+  },
+  card: {
+    alignSelf: "center",
+  },
   inputContainer: {
     flex: 1,
     width: "77%",
@@ -146,7 +206,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flex: 0.5,
-    width: "77%",
+    width: "100%",
     justifyContent: "center",
     alignItems: "center",
     marginTop: 40,

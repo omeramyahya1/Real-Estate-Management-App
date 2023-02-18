@@ -10,6 +10,7 @@ import dashboard from "./screens/dashboard";
 import CustomDrawer from "./screens/drawerContent";
 import accountSettings from "./screens/accountSettings";
 import favorites from "./screens/favorites";
+import contract from "./screens/contract";
 import feedback from "./screens/feedback";
 import welcome from "./screens/welcome";
 import signup from "./screens/signup";
@@ -109,6 +110,7 @@ export default function App() {
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen name="dashboard" component={Dashboard} />
           <Stack.Screen name="bills" component={bills} />
+          <Stack.Screen name="contract" component={contract} />
         </Stack.Navigator>
       ) : (
         <Auth />

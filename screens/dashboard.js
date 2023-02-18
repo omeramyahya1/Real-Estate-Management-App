@@ -447,7 +447,9 @@ const dashboard = () => {
 
             <View style={styles.buttonContainer}>
               <TouchableOpacity
-                onPress={() => {}}
+                onPress={() => {
+                  navigation.navigate("contract", { state: { id: data.id } });
+                }}
                 style={[styles.button, styles.buttonShadowProps]}
               >
                 <Text style={styles.buttonText}>Contract</Text>

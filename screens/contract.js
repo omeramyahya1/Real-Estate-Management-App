@@ -46,13 +46,14 @@ const DATA = [
   },
 ];
 
-const bills = ({ route }) => {
+const contract = ({ route }) => {
   const navigation = useNavigation();
   const params = route.params.state;
   const data = DATA.filter((item) => item.id === params.id)[0];
-  const dewa_bill = require("../assets/icons/DEWA_bill_1.jpg");
-  const gas_bill = require("../assets/icons/gas_bill.jpg");
-  const etisalat_bill = require("../assets/icons/Etisalat_bill.webp");
+  const contract_pdf = require("../assets/icons/contract_dubai.png");
+  const id_card = require("../assets/icons/IDCard.webp");
+  const checkque_1 = require("../assets/icons/citi-bank-1.jpg");
+  const checkque_2 = require("../assets/icons/emirates ndb.jpg");
 
   const { heart, handleLove } = useToggleFav();
 
@@ -305,115 +306,152 @@ const bills = ({ route }) => {
             </View>
             <View style={styles.hLine} />
 
-            <View style={styles.billsContainer}>
-              <View style={styles.BCRow}>
-                <View style={styles.bill}>
-                  <TouchableOpacity
-                    style={[
-                      styles.shadowProps,
-                      {
-                        borderWidth: StyleSheet.hairlineWidth,
-                        borderColor: "rgba(0, 0, 0, 0.25)",
-                        borderRadius: 5,
-                      },
-                    ]}
-                  >
-                    <Image
-                      source={dewa_bill}
-                      style={{
-                        width: 110,
-                        height: 152,
-                        borderRadius: 5,
-                      }}
-                    />
-                  </TouchableOpacity>
-                  <Text
-                    style={[
-                      styles.setColorDark,
-                      {
-                        fontSize: 16,
-                        fontWeight: "600",
-                        marginTop: 10,
-                      },
-                    ]}
-                  >
-                    Dewa Bill
+            <View style={styles.conractData}>
+              <TouchableOpacity
+                style={[
+                  styles.shadowProps,
+                  {
+                    borderWidth: StyleSheet.hairlineWidth,
+                    borderColor: "rgba(0, 0, 0, 0.25)",
+                    borderRadius: 5,
+                  },
+                ]}
+              >
+                <Image
+                  source={contract_pdf}
+                  style={{
+                    width: 110,
+                    height: 152,
+                    borderRadius: 5,
+                  }}
+                />
+              </TouchableOpacity>
+              <View
+                style={[
+                  styles.vLine,
+                  {
+                    marginHorizontal: 20,
+                  },
+                ]}
+              />
+              <View style={styles.textContainer}>
+                <View style={styles.textRow}>
+                  <Text style={[styles.setColorDark, { fontWeight: "bold" }]}>
+                    Issue date
                   </Text>
+                  <Text style={styles.setColorDark}>Jan 23rd 2023</Text>
                 </View>
-                <View style={styles.bill}>
-                  <TouchableOpacity
-                    style={[
-                      styles.shadowProps,
-                      {
-                        borderWidth: StyleSheet.hairlineWidth,
-                        borderColor: "rgba(0, 0, 0, 0.25)",
-                        borderRadius: 5,
-                      },
-                    ]}
-                  >
-                    <Image
-                      source={gas_bill}
-                      style={{
-                        width: 110,
-                        height: 152,
-                        borderRadius: 5,
-                      }}
-                    />
-                  </TouchableOpacity>
-                  <Text
-                    style={[
-                      styles.setColorDark,
-                      {
-                        fontSize: 16,
-                        fontWeight: "600",
-                        marginTop: 10,
-                      },
-                    ]}
-                  >
-                    Gas Bill
+                <View style={styles.textRow}>
+                  <Text style={[styles.setColorDark, { fontWeight: "bold" }]}>
+                    Exp. date
                   </Text>
+                  <Text style={styles.setColorDark}>Jan 23rd 2024</Text>
+                </View>
+                <View style={styles.textRow}>
+                  <Text style={[styles.setColorDark, { fontWeight: "bold" }]}>
+                    Office/Broker
+                  </Text>
+                  <Text style={styles.setColorDark}>Shoba RE.</Text>
+                </View>
+                <View style={styles.textRow}>
+                  <Text style={[styles.setColorDark, { fontWeight: "bold" }]}>
+                    Owner
+                  </Text>
+                  <Text style={styles.setColorDark}>Mr. Shalhoub</Text>
                 </View>
               </View>
+            </View>
+
+            <View style={styles.hLine} />
+
+            <View style={styles.idDocs}>
+              <View style={{ alignItems: "center" }}>
+                <Text
+                  style={[
+                    styles.setColorDark,
+                    {
+                      fontWeight: "600",
+                      marginBottom: 10,
+                    },
+                  ]}
+                >
+                  Landlord
+                </Text>
+                <TouchableOpacity
+                  style={[
+                    styles.shadowProps,
+                    {
+                      borderWidth: StyleSheet.hairlineWidth,
+                      borderColor: "rgba(0, 0, 0, 0.25)",
+                      borderRadius: 5,
+                    },
+                  ]}
+                >
+                  <Image
+                    source={id_card}
+                    style={{
+                      width: 132,
+                      height: 82,
+                      borderRadius: 5,
+                    }}
+                  />
+                </TouchableOpacity>
+              </View>
+
               <View
-                style={{
-                  alignSelf: "flex-start",
-                  marginBottom: 50,
-                  marginLeft: 30,
-                }}
-              >
-                <View style={styles.bill}>
-                  <TouchableOpacity
-                    style={[
-                      styles.shadowProps,
-                      {
-                        borderWidth: StyleSheet.hairlineWidth,
-                        borderColor: "rgba(0, 0, 0, 0.25)",
-                        borderRadius: 5,
-                      },
-                    ]}
-                  >
-                    <Image
-                      source={etisalat_bill}
-                      style={{
-                        width: 110,
-                        height: 152,
-                        borderRadius: 5,
-                      }}
-                    />
-                  </TouchableOpacity>
-                  <Text
-                    style={[
-                      styles.setColorDark,
-                      {
-                        fontSize: 16,
-                        fontWeight: "600",
-                        marginTop: 10,
-                      },
-                    ]}
-                  >
-                    Etisalat Bill
-                  </Text>
-                </View>
+                style={[
+                  styles.vLine,
+                  {
+                    marginHorizontal: 20,
+                  },
+                ]}
+              />
+              <View style={{ alignItems: "center" }}>
+                <Text
+                  style={[
+                    styles.setColorDark,
+                    {
+                      fontWeight: "600",
+                      marginBottom: 10,
+                    },
+                  ]}
+                >
+                  Tenant
+                </Text>
+                <TouchableOpacity
+                  style={[
+                    styles.shadowProps,
+                    {
+                      borderWidth: StyleSheet.hairlineWidth,
+                      borderColor: "rgba(0, 0, 0, 0.25)",
+                      borderRadius: 5,
+                    },
+                  ]}
+                >
+                  <Image
+                    source={id_card}
+                    style={{
+                      width: 132,
+                      height: 82,
+                      borderRadius: 5,
+                    }}
+                  />
+                </TouchableOpacity>
+              </View>
+            </View>
+
+            <View style={styles.hLine} />
+
+            <View style={styles.paymentSection}>
+              <View>
+                <Text
+                  style={[
+                    styles.setColorDark,
+                    { fontSize: 28, fontWeight: "500" },
+                  ]}
+                >
+                  Payment plan
+                </Text>
               </View>
             </View>
           </View>
@@ -423,7 +461,7 @@ const bills = ({ route }) => {
   );
 };
 
-export default bills;
+export default contract;
 
 const styles = StyleSheet.create({
   container: {
@@ -445,27 +483,19 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   greetingsLocation: {
+    flexGrow: 1,
+    overflow: "scroll",
     marginHorizontal: 20,
+    paddingTop: 0,
   },
   location: {
+    marginTop: 23,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginTop: 23,
   },
   greetings: {
     marginTop: 14,
-  },
-  BCRow: {
-    flexDirection: "row",
-    width: "100%",
-    justifyContent: "space-around",
-    marginVertical: 20,
-  },
-  bill: {
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
   },
   heroShadowProps: {
     shadowColor: "#000",
@@ -483,16 +513,6 @@ const styles = StyleSheet.create({
     paddingTop: 30,
     justifyContent: "space-between",
   },
-  bottomSheetContainer: {
-    marginHorizontal: 20,
-    marginTop: 20,
-    height: "100%",
-  },
-  locationBSC: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
   specs: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -502,11 +522,34 @@ const styles = StyleSheet.create({
     borderBottomColor: "rgba(150, 150, 150, 0.25)",
     borderBottomWidth: 1,
   },
-  buttonContainer: {
-    width: "100%",
-    justifyContent: "center",
+  conractData: {
+    marginVertical: 20,
+    flexDirection: "row",
     alignItems: "center",
-    marginTop: 30,
+  },
+  vLine: {
+    height: "85%",
+    borderColor: "rgba(150, 150, 150, 0.25)",
+    borderWidth: 0.5,
+    transform: [{ rotate: "180deg" }],
+  },
+  textContainer: {
+    justifyContent: "space-evenly",
+  },
+  textRow: {
+    width: 180,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginVertical: 5,
+  },
+  idDocs: {
+    marginVertical: 20,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  paymentSection: {
+    marginVertical: 20,
   },
   shadowProps: {
     shadowColor: "#000",

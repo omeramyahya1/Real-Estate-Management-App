@@ -5,8 +5,8 @@ import {
   Image,
   Pressable,
   FlatList,
-  ScrollView,
-  Keyboard,
+  Button,
+  ImageBackground,
   TouchableOpacity,
   TouchableWithoutFeedback,
   StatusBar,
@@ -16,6 +16,10 @@ import React from "react";
 import { auth } from "../firebase";
 import { useNavigation } from "@react-navigation/core";
 import { useState } from "react";
+import { LinearGradient } from "expo-linear-gradient";
+import { useToggleFav } from "../src/hooks/useToggleFav";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 import Card from "./components/card";
 
 const DATA = [
@@ -66,6 +70,26 @@ const dashboard = () => {
         navigation.replace("welcome");
       })
       .catch((error) => alert(error.message));
+  };
+
+  const sheetRef = React.useRef(null);
+  const [data, setData] = useState("");
+
+  const { heart, handleLove } = useToggleFav();
+
+  const TouchableCard = (props) => {
+    return (
+      <TouchableOpacity
+        id={props.id}
+        component={props.component}
+        onPress={() => {
+          sheetRef.current?.expand();
+          setData(DATA.filter((item) => item.id == props.id)[0]);
+        }}
+      >
+        {props.component}
+      </TouchableOpacity>
+    );
   };
 
   StatusBar.setBarStyle("dark-content", true);
@@ -136,17 +160,308 @@ const dashboard = () => {
         }}
         data={DATA}
         renderItem={({ item }) => (
-          <TouchableWithoutFeedback style={styles.card}>
-            <Card
-              status={item.status}
-              location={item.location}
-              price={item.price}
-              image={item.image}
-            />
-          </TouchableWithoutFeedback>
+          <TouchableCard
+            id={item.id}
+            component={
+              <Card
+                status={item.status}
+                location={item.location}
+                price={item.price}
+                image={item.image}
+              />
+            }
+          />
+          // <TouchableOpacity
+          //   style={styles.card}
+          //   onPress={() => {
+          //     sheetRef.current?.expand();
+          //     setData(DATA.filter((item) => item.id == props.id)[0]);
+          //   }}
+          // >
+          //   <Card
+          //     status={item.status}
+          //     location={item.location}
+          //     price={item.price}
+          //     image={item.image}
+          //   />
+          // </TouchableOpacity>
         )}
         onEndReachedThreshold={0}
       />
+
+      <BottomSheet
+        ref={sheetRef}
+        snapPoints={["100%"]}
+        bordrRadius={20}
+        index={-1}
+        enabledGestureInteraction={false}
+        handleStyle={{
+          display: "none",
+        }}
+      >
+        <BottomSheetView style={styles.bottomView}>
+          <View style={styles.upper}>
+            <ImageBackground
+              source={data.image}
+              style={{
+                width: "100%",
+                height: 266,
+              }}
+              resizeMethod="center"
+              imageStyle={{}}
+            >
+              <LinearGradient
+                style={styles.linearGredient}
+                colors={["transparent", "rgba(0, 0, 0, 0.7)"]}
+                start={{ x: 0.5, y: 0.6 }}
+              >
+                <TouchableOpacity
+                  style={{
+                    width: 50,
+                    height: 50,
+                    marginLeft: 20,
+                    backgroundColor: "rgba(249, 245, 255, 0.75)",
+                    borderRadius: "100%",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                  onPress={() => {
+                    sheetRef.current?.close();
+                  }}
+                >
+                  <Image
+                    source={require("../assets/icons/back.png")}
+                    style={{
+                      width: 34,
+                      height: 34,
+                      tintColor: "#28262C",
+                      borderRadius: "100%",
+                    }}
+                  />
+                </TouchableOpacity>
+                <View
+                  style={{
+                    borderColor: "#F9F5FF",
+                    width: 90,
+                    height: 30,
+                    justifyContent: "center",
+                    alignItems: "center",
+                    borderRadius: 5,
+                    borderWidth: 1,
+
+                    margin: 15,
+                  }}
+                >
+                  <Text
+                    style={[
+                      styles.setColorWhite,
+                      {
+                        fontSize: 16,
+                      },
+                    ]}
+                  >
+                    {data.status}
+                  </Text>
+                </View>
+              </LinearGradient>
+            </ImageBackground>
+          </View>
+
+          <View style={styles.greetingsLocation}>
+            <View style={styles.location}>
+              <View style={{ flexDirection: "row", alignItems: "center" }}>
+                <Image
+                  source={require("../assets/icons/pin.png")}
+                  style={{
+                    width: 14,
+                    height: 14,
+                    marginRight: 7,
+                    tintColor: "#28262C",
+                  }}
+                />
+                <Text
+                  style={[
+                    styles.setColorDark,
+                    {
+                      fontSize: 14,
+                    },
+                  ]}
+                >
+                  {data.location}
+                </Text>
+              </View>
+              <TouchableWithoutFeedback
+                onPress={() => {
+                  handleLove();
+                }}
+              >
+                <View
+                  style={{
+                    width: 35,
+                    height: 35,
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <MaterialCommunityIcons
+                    name={heart}
+                    size={24}
+                    color="#FF4C4C"
+                  />
+                </View>
+              </TouchableWithoutFeedback>
+            </View>
+            <View>
+              <Text
+                style={{
+                  color: "#208A0F",
+                  fontSize: 18,
+                  marginTop: 10,
+                  marginLeft: 7,
+                }}
+              >
+                AED {data.price}
+              </Text>
+            </View>
+            <View style={styles.specs}>
+              <View
+                style={{
+                  flexDirection: "column",
+
+                  alignItems: "flex-start",
+                  justifyContent: "space-between",
+                  paddingHorizontal: 7,
+                }}
+              >
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    marginBottom: 10,
+                  }}
+                >
+                  <Image
+                    style={{
+                      width: 14,
+                      height: 14,
+                      marginRight: 7,
+
+                      tintColor: "#3B3F65",
+                    }}
+                    source={require("../assets/icons/bed.png")}
+                  />
+                  <Text
+                    style={[
+                      styles.setColorDark,
+                      {
+                        fontSize: 14,
+                      },
+                    ]}
+                  >
+                    3 Bed Rooms
+                  </Text>
+                </View>
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  <Image
+                    style={{
+                      width: 14,
+                      height: 14,
+                      marginRight: 7,
+                      tintColor: "#3B3F65",
+                    }}
+                    source={require("../assets/icons/bounding-box.png")}
+                  />
+                  <Text
+                    style={[
+                      styles.setColorDark,
+                      {
+                        fontSize: 14,
+                      },
+                    ]}
+                  >
+                    250m sq
+                  </Text>
+                </View>
+              </View>
+              <View
+                style={{
+                  flexDirection: "column",
+
+                  alignItems: "flex-start",
+                  justifyContent: "space-between",
+                  paddingHorizontal: 7,
+                }}
+              >
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    marginBottom: 10,
+                  }}
+                >
+                  <Image
+                    style={{
+                      width: 14,
+                      height: 14,
+                      marginRight: 7,
+
+                      tintColor: "#3B3F65",
+                    }}
+                    source={require("../assets/icons/tub.png")}
+                  />
+                  <Text
+                    style={[
+                      styles.setColorDark,
+                      {
+                        fontSize: 14,
+                      },
+                    ]}
+                  >
+                    3 Bath Rooms
+                  </Text>
+                </View>
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  <Image
+                    style={{
+                      width: 14,
+                      height: 14,
+                      marginRight: 7,
+                      tintColor: "#3B3F65",
+                    }}
+                    source={require("../assets/icons/car.png")}
+                  />
+                  <Text
+                    style={[
+                      styles.setColorDark,
+                      {
+                        fontSize: 14,
+                      },
+                    ]}
+                  >
+                    Garage
+                  </Text>
+                </View>
+              </View>
+            </View>
+            <View style={styles.hLine} />
+
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity
+                onPress={() => {}}
+                style={[styles.button, styles.buttonShadowProps]}
+              >
+                <Text style={styles.buttonText}>Contract</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {}}
+                style={[styles.button, styles.buttonShadowProps]}
+              >
+                <Text style={styles.buttonText}>Accounts & Bills</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </BottomSheetView>
+      </BottomSheet>
     </SafeAreaView>
   );
 };
@@ -189,49 +504,6 @@ const styles = StyleSheet.create({
   card: {
     alignSelf: "center",
   },
-  inputContainer: {
-    flex: 1,
-    width: "77%",
-    justifyContent: "center",
-  },
-  inputField: {
-    width: "100%",
-  },
-  input: {
-    width: "100%",
-    borderBottomColor: "#969696",
-    borderBottomWidth: 1.5,
-    marginBottom: 32,
-    marginTop: 20,
-  },
-  buttonContainer: {
-    flex: 0.5,
-    width: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 40,
-  },
-  button: {
-    backgroundColor: "#3B3F65",
-    width: "100%",
-    height: 65,
-    padding: 15,
-    borderRadius: 65,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  buttonText: {
-    color: "white",
-    fontWeight: "700",
-    fontSize: 16,
-  },
-  buttomPart: {
-    flex: 1,
-    width: "77%",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  link: { textDecorationLine: "underline", fontSize: 10, color: "#1766FF" },
   heroShadowProps: {
     shadowColor: "#000",
     shadowOffset: {
@@ -242,6 +514,64 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
 
     elevation: 1,
+  },
+  linearGredient: {
+    height: "100%",
+    paddingTop: 30,
+    justifyContent: "space-between",
+  },
+  bottomSheetContainer: {
+    marginHorizontal: 20,
+    marginTop: 20,
+    height: "100%",
+  },
+  locationBSC: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  specs: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginVertical: 20,
+  },
+  hLine: {
+    borderBottomColor: "rgba(150, 150, 150, 0.25)",
+    borderBottomWidth: 1,
+  },
+  buttonContainer: {
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 30,
+  },
+  button: {
+    backgroundColor: "#fff",
+    width: "100%",
+    height: 65,
+    padding: 15,
+    marginBottom: 20,
+    borderRadius: 20,
+    alignItems: "center",
+    justifyContent: "center",
+    borderColor: "#3B3F65",
+    borderWidth: StyleSheet.hairlineWidth,
+  },
+  buttonText: {
+    color: "#28262C",
+    fontWeight: "700",
+    fontSize: 16,
+  },
+  buttonShadowProps: {
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+
+    elevation: 10,
   },
   setColorDark: {
     color: "#28262c",

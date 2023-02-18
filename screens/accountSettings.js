@@ -3,26 +3,26 @@ import {
   Text,
   View,
   Image,
-  Pressable,
-  KeyboardAvoidingView,
-  TextInput,
-  Keyboard,
+  Button,
   TouchableOpacity,
   TouchableWithoutFeedback,
-  StatusBar,
   SafeAreaView,
+  ImageBackground,
 } from "react-native";
 import React from "react";
-import { auth } from "../firebase";
-import { useNavigation } from "@react-navigation/core";
+import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 import { useState } from "react";
+import { LinearGradient } from "expo-linear-gradient";
+import { useToggleFav } from "../src/hooks/useToggleFav";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 const accountSettings = () => {
-  StatusBar.setBarStyle("dark-content", true);
   return (
     <>
       <SafeAreaView style={styles.container}>
-        <Text>account Settings</Text>
+        <View>
+          <Text>Account Settings</Text>
+        </View>
       </SafeAreaView>
     </>
   );
@@ -36,70 +36,54 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#fff",
   },
-  hero: {
-    width: "100%",
-    height: 156,
-    backgroundColor: "#F9F5FF",
-  },
-  mostTop: {
-    flexDirection: "row",
-    width: "100%",
-    height: 59,
-    alignItems: "flex-start",
+  linearGredient: {
+    height: "100%",
+    paddingTop: 30,
     justifyContent: "space-between",
   },
-  greetingsLocation: { marginHorizontal: 20, marginTop: 23 },
-  location: {
+  bottomSheetContainer: {
+    marginHorizontal: 20,
+    marginTop: 20,
+    height: "100%",
+  },
+  locationBSC: {
     flexDirection: "row",
+    justifyContent: "space-between",
     alignItems: "center",
   },
-  greetings: {
-    marginTop: 14,
+  specs: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginVertical: 20,
   },
-  inputContainer: {
-    flex: 1,
-    width: "77%",
-    justifyContent: "center",
-  },
-  inputField: {
-    width: "100%",
-  },
-  input: {
-    width: "100%",
-    borderBottomColor: "#969696",
-    borderBottomWidth: 1.5,
-    marginBottom: 32,
-    marginTop: 20,
+  hLine: {
+    borderBottomColor: "rgba(150, 150, 150, 0.25)",
+    borderBottomWidth: 1,
   },
   buttonContainer: {
-    flex: 0.5,
-    width: "77%",
+    width: "100%",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 40,
+    marginTop: 30,
   },
   button: {
-    backgroundColor: "#3B3F65",
+    backgroundColor: "#fff",
     width: "100%",
     height: 65,
     padding: 15,
-    borderRadius: 65,
+    marginBottom: 20,
+    borderRadius: 20,
     alignItems: "center",
     justifyContent: "center",
+    borderColor: "#3B3F65",
+    borderWidth: StyleSheet.hairlineWidth,
   },
   buttonText: {
-    color: "white",
+    color: "#28262C",
     fontWeight: "700",
     fontSize: 16,
   },
-  buttomPart: {
-    flex: 1,
-    width: "77%",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  link: { textDecorationLine: "underline", fontSize: 10, color: "#1766FF" },
-  heroShadowProps: {
+  buttonShadowProps: {
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -108,7 +92,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
 
-    elevation: 1,
+    elevation: 10,
   },
   setColorDark: {
     color: "#28262c",

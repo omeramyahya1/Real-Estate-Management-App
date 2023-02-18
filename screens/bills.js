@@ -3,24 +3,18 @@ import {
   Text,
   View,
   Image,
-  Pressable,
-  FlatList,
-  Button,
   ImageBackground,
   TouchableOpacity,
   TouchableWithoutFeedback,
-  StatusBar,
   SafeAreaView,
+  ScrollView,
+  Dimensions,
 } from "react-native";
-import React from "react";
-import { auth } from "../firebase";
-import { useNavigation } from "@react-navigation/core";
-import { useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
-import { useToggleFav } from "../src/hooks/useToggleFav";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
-import Card from "./components/card";
+import React from "react";
+import { useNavigation } from "@react-navigation/core";
+import { useToggleFav } from "../src/hooks/useToggleFav";
 
 const DATA = [
   {
@@ -53,153 +47,20 @@ const DATA = [
   },
 ];
 
-const dashboard = () => {
-  const userName = "Mohamed";
-  const location = "Dubai, UAE";
+const bills = ({ route }) => {
   const navigation = useNavigation();
-
-  const [menu, setMenu] = useState(false);
-  const handleMenue = () => {
-    navigation.toggleDrawer();
-    setMenu(!menu);
-  };
-  const handleSignOut = () => {
-    auth
-      .signOut()
-      .then(() => {
-        navigation.replace("welcome");
-      })
-      .catch((error) => alert(error.message));
-  };
-
-  const sheetRef = React.useRef(null);
-  const [data, setData] = useState("");
+  const params = route.params.state;
+  const data = DATA.filter((item) => item.id === params.id)[0];
+  const dewa_bill = require("../assets/icons/DEWA_bill_1.jpg");
+  const gas_bill = require("../assets/icons/gas_bill.jpg");
+  const etisalat_bill = require("../assets/icons/Etisalat_bill.webp");
 
   const { heart, handleLove } = useToggleFav();
 
-  const TouchableCard = (props) => {
-    return (
-      <TouchableOpacity
-        id={props.id}
-        component={props.component}
-        onPress={() => {
-          sheetRef.current?.expand();
-          setData(DATA.filter((item) => item.id == props.id)[0]);
-        }}
-      >
-        {props.component}
-      </TouchableOpacity>
-    );
-  };
-
-  StatusBar.setBarStyle("dark-content", true);
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={[styles.hero, styles.heroShadowProps]}>
-        <View style={styles.mostTop}>
-          <Pressable onPress={handleMenue}>
-            <Image
-              source={require("../assets/icons/menu.png")}
-              style={{
-                width: 29,
-                height: 29,
-                marginTop: 20,
-                marginLeft: 20,
-                tintColor: "#2B2E4D",
-              }}
-            />
-          </Pressable>
-          <Pressable onPress={handleMenue}>
-            <Image
-              source={require("../assets/icons/person.jpg")}
-              style={{
-                width: 49,
-                height: 49,
-                borderRadius: "50%",
-                marginTop: 10,
-                marginRight: 17,
-              }}
-            />
-          </Pressable>
-        </View>
-        <View style={styles.greetingsLocation}>
-          <View style={styles.location}>
-            <Image
-              source={require("../assets/icons/pin.png")}
-              style={{
-                width: 11,
-                height: 12,
-                marginRight: 7,
-                tintColor: "#28262C",
-              }}
-            />
-            <Text
-              style={[
-                styles.setColorDark,
-                {
-                  fontSize: 12,
-                },
-              ]}
-            >
-              {location}
-            </Text>
-          </View>
-          <View style={styles.greetings}>
-            <Text style={[styles.setColorDark, { fontSize: 16 }]}>
-              Welcome back, {userName}!
-            </Text>
-          </View>
-        </View>
-      </View>
-
-      <FlatList
-        style={styles.cardsContainer}
-        contentContainerStyle={{
-          alignItems: "center",
-          overflow: "scroll",
-        }}
-        data={DATA}
-        renderItem={({ item }) => (
-          <TouchableCard
-            id={item.id}
-            component={
-              <Card
-                status={item.status}
-                location={item.location}
-                price={item.price}
-                image={item.image}
-              />
-            }
-          />
-          // <TouchableOpacity
-          //   style={styles.card}
-          //   onPress={() => {
-          //     sheetRef.current?.expand();
-          //     setData(DATA.filter((item) => item.id == props.id)[0]);
-          //   }}
-          // >
-          //   <Card
-          //     status={item.status}
-          //     location={item.location}
-          //     price={item.price}
-          //     image={item.image}
-          //   />
-          // </TouchableOpacity>
-        )}
-        onEndReachedThreshold={0}
-      />
-
-      <BottomSheet
-        ref={sheetRef}
-        snapPoints={["100%"]}
-        bordrRadius={20}
-        index={-1}
-        enabledGestureInteraction={false}
-        handleStyle={{
-          display: "none",
-        }}
-      >
-        <BottomSheetView style={styles.bottomView}>
+    <>
+      <SafeAreaView style={styles.container}>
+        <ScrollView style={[styles.greetingsLocation, { width: "100%" }]}>
           <View style={styles.upper}>
             <ImageBackground
               source={data.image}
@@ -226,7 +87,7 @@ const dashboard = () => {
                     justifyContent: "center",
                   }}
                   onPress={() => {
-                    sheetRef.current?.close();
+                    navigation.navigate("dashboard");
                   }}
                 >
                   <Image
@@ -267,8 +128,8 @@ const dashboard = () => {
             </ImageBackground>
           </View>
 
-          <View style={styles.greetingsLocation}>
-            <View style={styles.locationBSC}>
+          <View style={{ marginHorizontal: 20 }}>
+            <View style={styles.location}>
               <View style={{ flexDirection: "row", alignItems: "center" }}>
                 <Image
                   source={require("../assets/icons/pin.png")}
@@ -445,36 +306,131 @@ const dashboard = () => {
             </View>
             <View style={styles.hLine} />
 
-            <View style={styles.buttonContainer}>
-              <TouchableOpacity
-                onPress={() => {}}
-                style={[styles.button, styles.buttonShadowProps]}
-              >
-                <Text style={styles.buttonText}>Contract</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate("bills", { state: { id: data.id } });
+            <View style={styles.billsContainer}>
+              <View style={styles.BCRow}>
+                <View style={styles.bill}>
+                  <TouchableOpacity
+                    style={[
+                      styles.shadowProps,
+                      {
+                        borderWidth: StyleSheet.hairlineWidth,
+                        borderColor: "rgba(0, 0, 0, 0.25)",
+                        borderRadius: 5,
+                      },
+                    ]}
+                  >
+                    <Image
+                      source={dewa_bill}
+                      style={{
+                        width: 110,
+                        height: 152,
+                        borderRadius: 5,
+                      }}
+                    />
+                  </TouchableOpacity>
+                  <Text
+                    style={[
+                      styles.setColorDark,
+                      {
+                        fontSize: 16,
+                        fontWeight: "600",
+                        marginTop: 10,
+                      },
+                    ]}
+                  >
+                    Dewa Bill
+                  </Text>
+                </View>
+                <View style={styles.bill}>
+                  <TouchableOpacity
+                    style={[
+                      styles.shadowProps,
+                      {
+                        borderWidth: StyleSheet.hairlineWidth,
+                        borderColor: "rgba(0, 0, 0, 0.25)",
+                        borderRadius: 5,
+                      },
+                    ]}
+                  >
+                    <Image
+                      source={gas_bill}
+                      style={{
+                        width: 110,
+                        height: 152,
+                        borderRadius: 5,
+                      }}
+                    />
+                  </TouchableOpacity>
+                  <Text
+                    style={[
+                      styles.setColorDark,
+                      {
+                        fontSize: 16,
+                        fontWeight: "600",
+                        marginTop: 10,
+                      },
+                    ]}
+                  >
+                    Gas Bill
+                  </Text>
+                </View>
+              </View>
+              <View
+                style={{
+                  alignSelf: "flex-start",
+                  marginBottom: 50,
+                  marginLeft: 30,
                 }}
-                style={[styles.button, styles.buttonShadowProps]}
               >
-                <Text style={styles.buttonText}>Accounts & Bills</Text>
-              </TouchableOpacity>
+                <View style={styles.bill}>
+                  <TouchableOpacity
+                    style={[
+                      styles.shadowProps,
+                      {
+                        borderWidth: StyleSheet.hairlineWidth,
+                        borderColor: "rgba(0, 0, 0, 0.25)",
+                        borderRadius: 5,
+                      },
+                    ]}
+                  >
+                    <Image
+                      source={etisalat_bill}
+                      style={{
+                        width: 110,
+                        height: 152,
+                        borderRadius: 5,
+                      }}
+                    />
+                  </TouchableOpacity>
+                  <Text
+                    style={[
+                      styles.setColorDark,
+                      {
+                        fontSize: 16,
+                        fontWeight: "600",
+                        marginTop: 10,
+                      },
+                    ]}
+                  >
+                    Etisalat Bill
+                  </Text>
+                </View>
+              </View>
             </View>
           </View>
-        </BottomSheetView>
-      </BottomSheet>
-    </SafeAreaView>
+        </ScrollView>
+      </SafeAreaView>
+    </>
   );
 };
 
-export default dashboard;
+export default bills;
 
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     alignItems: "center",
-    backgroundColor: "#fff",
+    backgroundColor: "#FFF",
     height: "100%",
   },
   hero: {
@@ -489,22 +445,30 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
     justifyContent: "space-between",
   },
-  greetingsLocation: { marginHorizontal: 20, marginTop: 23 },
+  greetingsLocation: {
+    flexGrow: 1,
+    overflow: "scroll",
+    marginHorizontal: 20,
+    paddingTop: 0,
+  },
   location: {
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "space-between",
   },
   greetings: {
     marginTop: 14,
   },
-  cardsContainer: {
-    paddingTop: 20,
-    height: "100%",
+  BCRow: {
+    flexDirection: "row",
     width: "100%",
-    flexGrow: 0,
+    justifyContent: "space-around",
+    marginVertical: 20,
   },
-  card: {
-    alignSelf: "center",
+  bill: {
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
   },
   heroShadowProps: {
     shadowColor: "#000",
@@ -564,7 +528,7 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     fontSize: 16,
   },
-  buttonShadowProps: {
+  shadowProps: {
     shadowColor: "#000",
     shadowOffset: {
       width: 0,

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { AppRegistry, Button, View, Image } from "react-native";
+import { AppRegistry, Button, View, Image, LogBox } from "react-native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { NavigationContainer } from "@react-navigation/native";
 import "react-native-gesture-handler";
@@ -14,6 +14,7 @@ import feedback from "./screens/feedback";
 import welcome from "./screens/welcome";
 import signup from "./screens/signup";
 import login from "./screens/login";
+import bills from "./screens/bills";
 import auth from "./firebase";
 
 const Stack = createNativeStackNavigator();
@@ -32,73 +33,83 @@ const Auth = () => {
   );
 };
 
+const Dashboard = () => {
+  return (
+    <Drawer.Navigator
+      initialRouteName="dashboard"
+      screenOptions={{
+        headerShown: false,
+        drawerActiveBackgroundColor: "rgba(150, 150, 150, 0.25)",
+        drawerActiveTintColor: "#F9F5FF",
+        drawerInactiveTintColor: "#F9F5FF",
+        drawerLabelStyle: {
+          marginLeft: -16,
+          fontSize: 16,
+        },
+      }}
+      drawerContent={(props) => <CustomDrawer {...props} />}
+    >
+      <Drawer.Screen
+        name="Home"
+        component={dashboard}
+        options={{
+          drawerIcon: ({ color, size }) => (
+            <Image
+              source={require("./assets/icons/home.png")}
+              style={{ tintColor: color, width: size, height: size }}
+            />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="Account Settings"
+        component={accountSettings}
+        options={{
+          drawerIcon: ({ color, size }) => (
+            <Image
+              source={require("./assets/icons/user.png")}
+              style={{ tintColor: color, width: size, height: size }}
+            />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="Favorites"
+        component={favorites}
+        options={{
+          drawerIcon: ({ color, size }) => (
+            <Image
+              source={require("./assets/icons/heart.png")}
+              style={{ tintColor: color, width: size, height: size }}
+            />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="Give us feedback"
+        component={feedback}
+        options={{
+          drawerIcon: ({ color, size }) => (
+            <Image
+              source={require("./assets/icons/text_bubble.png")}
+              style={{ tintColor: color, width: size, height: size }}
+            />
+          ),
+        }}
+      />
+    </Drawer.Navigator>
+  );
+};
+
 export default function App() {
+  LogBox.ignoreAllLogs();
   return (
     <NavigationContainer>
       {user ? (
-        <Drawer.Navigator
-          initialRouteName="dashboard"
-          screenOptions={{
-            headerShown: false,
-            drawerActiveBackgroundColor: "rgba(150, 150, 150, 0.25)",
-            drawerActiveTintColor: "#F9F5FF",
-            drawerInactiveTintColor: "#F9F5FF",
-            drawerLabelStyle: {
-              marginLeft: -16,
-              fontSize: 16,
-            },
-          }}
-          drawerContent={(props) => <CustomDrawer {...props} />}
-        >
-          <Drawer.Screen
-            name="Home"
-            component={dashboard}
-            options={{
-              drawerIcon: ({ color, size }) => (
-                <Image
-                  source={require("./assets/icons/home.png")}
-                  style={{ tintColor: color, width: size, height: size }}
-                />
-              ),
-            }}
-          />
-          <Drawer.Screen
-            name="Account Settings"
-            component={accountSettings}
-            options={{
-              drawerIcon: ({ color, size }) => (
-                <Image
-                  source={require("./assets/icons/user.png")}
-                  style={{ tintColor: color, width: size, height: size }}
-                />
-              ),
-            }}
-          />
-          <Drawer.Screen
-            name="Favorites"
-            component={favorites}
-            options={{
-              drawerIcon: ({ color, size }) => (
-                <Image
-                  source={require("./assets/icons/heart.png")}
-                  style={{ tintColor: color, width: size, height: size }}
-                />
-              ),
-            }}
-          />
-          <Drawer.Screen
-            name="Give us feedback"
-            component={feedback}
-            options={{
-              drawerIcon: ({ color, size }) => (
-                <Image
-                  source={require("./assets/icons/text_bubble.png")}
-                  style={{ tintColor: color, width: size, height: size }}
-                />
-              ),
-            }}
-          />
-        </Drawer.Navigator>
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="dashboard" component={Dashboard} />
+          <Stack.Screen name="bills" component={bills} />
+        </Stack.Navigator>
       ) : (
         <Auth />
       )}

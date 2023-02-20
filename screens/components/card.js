@@ -1,18 +1,6 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  Pressable,
-  ImageBackground,
-  TextInput,
-  Keyboard,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-  Image,
-} from "react-native";
+import { StyleSheet, Text, View, ImageBackground, Image } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import React, { useEffect, useState } from "react";
-import { useNavigation } from "@react-navigation/core";
+import React from "react";
 
 const Card = ({ image, status, price, location }) => {
   return (

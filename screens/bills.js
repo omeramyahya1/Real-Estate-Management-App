@@ -432,18 +432,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFF",
     height: "100%",
   },
-  hero: {
-    width: "100%",
-    height: 156,
-    backgroundColor: "#F9F5FF",
-  },
-  mostTop: {
-    flexDirection: "row",
-    width: "100%",
-    height: 59,
-    alignItems: "flex-start",
-    justifyContent: "space-between",
-  },
   greetingsLocation: {
     marginHorizontal: 20,
   },
@@ -453,45 +441,15 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     marginTop: 23,
   },
-  greetings: {
-    marginTop: 14,
-  },
-  BCRow: {
-    flexDirection: "row",
-    width: "100%",
-    justifyContent: "space-around",
-    marginVertical: 20,
-  },
   bill: {
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
   },
-  heroShadowProps: {
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-
-    elevation: 1,
-  },
   linearGredient: {
     height: "100%",
     paddingTop: 30,
     justifyContent: "space-between",
-  },
-  bottomSheetContainer: {
-    marginHorizontal: 20,
-    marginTop: 20,
-    height: "100%",
-  },
-  locationBSC: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
   },
   specs: {
     flexDirection: "row",
@@ -501,12 +459,6 @@ const styles = StyleSheet.create({
   hLine: {
     borderBottomColor: "rgba(150, 150, 150, 0.25)",
     borderBottomWidth: 1,
-  },
-  buttonContainer: {
-    width: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 30,
   },
   shadowProps: {
     shadowColor: "#000",

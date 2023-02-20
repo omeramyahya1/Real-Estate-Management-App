@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { View, Text, StyleSheet, Image, Pressable } from "react-native";
 import {
   DrawerContentScrollView,
@@ -9,15 +9,12 @@ import { auth } from "../firebase";
 
 function CustomDrawer(props) {
   const userName = "Mohamed";
-  const navigation = useNavigation();
 
   const handleSignOut = () => {
     auth
       .signOut()
-      .then(() => {
-        navigation.replace("welcom");
-      })
-      .catch((error) => alert(error.massage));
+
+      .catch((error) => alert(error.message));
   };
   return (
     <>
@@ -42,7 +39,13 @@ function CustomDrawer(props) {
         </View>
         <DrawerItemList {...props} />
       </DrawerContentScrollView>
-      <Pressable onPress={handleSignOut} style={styles.bottomPart}>
+      <Pressable
+        onPress={() => {
+          console.log("pressed logg out");
+          handleSignOut();
+        }}
+        style={styles.bottomPart}
+      >
         <Image
           source={require("../assets/icons/exit.png")}
           style={{

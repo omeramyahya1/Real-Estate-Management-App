@@ -9,7 +9,7 @@ import {
   SafeAreaView,
   Pressable,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/core";
 import { auth } from "../firebase";
 import { MaterialCommunityIcons } from "@expo/vector-icons";

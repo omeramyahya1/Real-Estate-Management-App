@@ -44,15 +44,7 @@ const welcome = () => {
   const handleSignIn = () => {
     navigation.navigate("login");
   };
-  const handleLogin = () => {
-    auth
-      .signInWithEmailAndPassword(email, password)
-      .then((userCredentials) => {
-        const user = userCredentials.user;
-        console.log("Logged in with:", user.email);
-      })
-      .catch((error) => alert(error.message));
-  };
+
   StatusBar.setBarStyle("dark-content", true);
   return (
     <>

@@ -11,9 +11,10 @@ import {
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import React from "react";
+import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/core";
 import { useToggleFav } from "../src/hooks/useToggleFav";
+import SelectDropdown from "react-native-select-dropdown";
 
 const DATA = [
   {
@@ -53,9 +54,11 @@ const contract = ({ route }) => {
   const contract_pdf = require("../assets/icons/contract_dubai.png");
   const id_card = require("../assets/icons/IDCard.webp");
   const checkque_1 = require("../assets/icons/citi-bank-1.jpg");
-  const checkque_2 = require("../assets/icons/emirates ndb.jpg");
+  const checkque_2 = require("../assets/icons/emirates_ndb.jpg");
 
   const { heart, handleLove } = useToggleFav();
+  const payments = ["First payement", "Second payment", "Third payment"];
+  const [paymentIndex, setPaymentIndex] = useState(0);
 
   return (
     <>
@@ -453,6 +456,127 @@ const contract = ({ route }) => {
                   Payment plan
                 </Text>
               </View>
+              <View style={[styles.dropDownSelector, styles.shadowProps]}>
+                <SelectDropdown
+                  data={payments}
+                  defaultValueByIndex={0}
+                  buttonTextAfterSelection={(selectedItem, index) => {
+                    setPaymentIndex(index);
+                    return selectedItem;
+                  }}
+                  buttonStyle={styles.selectButton}
+                  buttonTextStyle={styles.setColorDark}
+                  dropdownStyle={styles.dropMenu}
+                  rowTextStyle={styles.setColorDark}
+                  renderDropdownIcon={() => {
+                    return (
+                      <MaterialCommunityIcons
+                        name="chevron-down"
+                        size={24}
+                        color="#28262c"
+                      />
+                    );
+                  }}
+                />
+              </View>
+
+              <View>
+                <Text
+                  style={[
+                    styles.setColorDark,
+                    { fontSize: 18, fontWeight: "500", marginBottom: 20 },
+                  ]}
+                >
+                  {payments[paymentIndex]}
+                </Text>
+              </View>
+
+              <View style={styles.payementPlan}>
+                <View style={styles.paymentSegment}>
+                  <View style={styles.textContainer}>
+                    <View style={styles.textRow}>
+                      <Text
+                        style={[styles.setColorDark, { fontWeight: "bold" }]}
+                      >
+                        Date
+                      </Text>
+                      <Text style={styles.setColorDark}>Jan 23rd 2023</Text>
+                    </View>
+                    <View style={styles.textRow}>
+                      <Text
+                        style={[styles.setColorDark, { fontWeight: "bold" }]}
+                      >
+                        Bank name
+                      </Text>
+                      <Text style={styles.setColorDark}>CitiBank</Text>
+                    </View>
+                    <View style={styles.textRow}>
+                      <Text
+                        style={[styles.setColorDark, { fontWeight: "bold" }]}
+                      >
+                        From/To
+                      </Text>
+                      <Text style={styles.setColorDark}>Tenant/Landlord</Text>
+                    </View>
+                  </View>
+                  <View style={[styles.shadowProps]}>
+                    <TouchableOpacity>
+                      <Image
+                        source={checkque_1}
+                        style={{
+                          width: 120,
+                          height: 50,
+                          borderRadius: 5,
+                          borderWidth: StyleSheet.hairlineWidth,
+                          borderColor: "rgba(0, 0, 0, 0.25)",
+                        }}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                </View>
+                <View style={styles.paymentSegment}>
+                  <View style={styles.textContainer}>
+                    <View style={styles.textRow}>
+                      <Text
+                        style={[styles.setColorDark, { fontWeight: "bold" }]}
+                      >
+                        Date
+                      </Text>
+                      <Text style={styles.setColorDark}>Jan 23rd 2023</Text>
+                    </View>
+                    <View style={styles.textRow}>
+                      <Text
+                        style={[styles.setColorDark, { fontWeight: "bold" }]}
+                      >
+                        Bank name
+                      </Text>
+                      <Text style={styles.setColorDark}>EmiratesNDB</Text>
+                    </View>
+                    <View style={styles.textRow}>
+                      <Text
+                        style={[styles.setColorDark, { fontWeight: "bold" }]}
+                      >
+                        From/To
+                      </Text>
+                      <Text style={styles.setColorDark}>Tenant/Landlord</Text>
+                    </View>
+                  </View>
+                  <View style={[styles.shadowProps]}>
+                    <TouchableOpacity>
+                      <Image
+                        source={checkque_2}
+                        style={{
+                          width: 120,
+                          height: 50,
+                          borderRadius: 5,
+                          borderWidth: StyleSheet.hairlineWidth,
+                          borderColor: "rgba(0, 0, 0, 0.25)",
+                        }}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </View>
             </View>
           </View>
         </ScrollView>
@@ -470,18 +594,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFF",
     height: "100%",
   },
-  hero: {
-    width: "100%",
-    height: 156,
-    backgroundColor: "#F9F5FF",
-  },
-  mostTop: {
-    flexDirection: "row",
-    width: "100%",
-    height: 59,
-    alignItems: "flex-start",
-    justifyContent: "space-between",
-  },
   greetingsLocation: {
     flexGrow: 1,
     overflow: "scroll",
@@ -493,20 +605,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-  },
-  greetings: {
-    marginTop: 14,
-  },
-  heroShadowProps: {
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-
-    elevation: 1,
   },
   linearGredient: {
     height: "100%",
@@ -550,6 +648,23 @@ const styles = StyleSheet.create({
   },
   paymentSection: {
     marginVertical: 20,
+  },
+  dropDownSelector: {
+    marginVertical: 20,
+  },
+  selectButton: {
+    borderRadius: 15,
+    backgroundColor: "rgba(249, 245, 255, 0.75)",
+  },
+  dropMenu: {
+    backgroundColor: "rgb(249, 245, 255)",
+    borderRadius: 15,
+  },
+  paymentSegment: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 20,
   },
   shadowProps: {
     shadowColor: "#000",

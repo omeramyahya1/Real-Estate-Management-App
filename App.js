@@ -16,12 +16,11 @@ import welcome from "./screens/welcome";
 import signup from "./screens/signup";
 import login from "./screens/login";
 import bills from "./screens/bills";
-import auth from "./firebase";
+import { useState } from "react";
+import { useHandleLoggin } from "./src/hooks/useLoggInOut";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
-
-var user = true;
 
 const Auth = () => {
   return (
@@ -103,10 +102,12 @@ const Dashboard = () => {
 };
 
 export default function App() {
+  const { logged, setLogged } = useHandleLoggin();
+
   LogBox.ignoreAllLogs();
   return (
     <NavigationContainer>
-      {user ? (
+      {logged ? (
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen name="dashboard" component={Dashboard} />
           <Stack.Screen name="bills" component={bills} />

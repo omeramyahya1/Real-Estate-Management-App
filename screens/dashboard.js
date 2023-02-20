@@ -5,7 +5,6 @@ import {
   Image,
   Pressable,
   FlatList,
-  Button,
   ImageBackground,
   TouchableOpacity,
   TouchableWithoutFeedback,
@@ -62,14 +61,6 @@ const dashboard = () => {
   const handleMenue = () => {
     navigation.toggleDrawer();
     setMenu(!menu);
-  };
-  const handleSignOut = () => {
-    auth
-      .signOut()
-      .then(() => {
-        navigation.replace("welcome");
-      })
-      .catch((error) => alert(error.message));
   };
 
   const sheetRef = React.useRef(null);
@@ -171,20 +162,6 @@ const dashboard = () => {
               />
             }
           />
-          // <TouchableOpacity
-          //   style={styles.card}
-          //   onPress={() => {
-          //     sheetRef.current?.expand();
-          //     setData(DATA.filter((item) => item.id == props.id)[0]);
-          //   }}
-          // >
-          //   <Card
-          //     status={item.status}
-          //     location={item.location}
-          //     price={item.price}
-          //     image={item.image}
-          //   />
-          // </TouchableOpacity>
         )}
         onEndReachedThreshold={0}
       />
@@ -505,9 +482,6 @@ const styles = StyleSheet.create({
     width: "100%",
     flexGrow: 0,
   },
-  card: {
-    alignSelf: "center",
-  },
   heroShadowProps: {
     shadowColor: "#000",
     shadowOffset: {
@@ -523,11 +497,6 @@ const styles = StyleSheet.create({
     height: "100%",
     paddingTop: 30,
     justifyContent: "space-between",
-  },
-  bottomSheetContainer: {
-    marginHorizontal: 20,
-    marginTop: 20,
-    height: "100%",
   },
   locationBSC: {
     flexDirection: "row",

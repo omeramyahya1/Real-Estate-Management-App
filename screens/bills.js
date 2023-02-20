@@ -459,6 +459,13 @@ const styles = StyleSheet.create({
   hLine: {
     borderBottomColor: "rgba(150, 150, 150, 0.25)",
     borderBottomWidth: 1,
+  },billsContainer: {
+    marginVertical: 20,
+  },
+  BCRow: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    marginTop: 20,
   },
   shadowProps: {
     shadowColor: "#000",
